@@ -36,7 +36,7 @@ game.restart = function () {
     // the game variables (the model)
     game.display = '';
     // use modulo to allow list to cycle
-    game.answerPosition = (game.answersList.length + game.answerPosition) % game.answersList.length;
+    game.answerPosition = (game.answerPosition) % game.answersList.length;
     game.answer = game.answersList[game.answerPosition];
     game.display = game.dashes(game.answer.length);
     game.wrong = '';
@@ -71,6 +71,7 @@ game.play = function () {
   
   check(game.answer, letter);
   game.outcome();
+  $('#guessedletter').focus();
  }
 
 // Invoked when the user clicks on GUESS

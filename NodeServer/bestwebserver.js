@@ -1,3 +1,20 @@
+/*
+* CIS 22A Assignment08 Webserver
+* David Gudeman
+* February 26, 2015
+*/
+// Load the file system module
+var fs = require("fs");
+// load the http module
+var http = require("http");
+// load the url module
+var url = require("url");
+// load the path module
+var path = require("path");
+ 
+// declare server variable
+var server;
+
 //The following function will be called when the server
 // is handling a request
 function servePage(request, response) {
@@ -5,7 +22,7 @@ function servePage(request, response) {
 
     // resource extracts the pathname to an object
     var resource = "." + url.parse(request.url).pathname;
-    
+  
     //if there is no pathname route to homepage
     if (resource === "./") {
         resource = './html/home.html';
@@ -15,16 +32,16 @@ function servePage(request, response) {
         
         // extract only the path extension
         var extension = path.extname(resource);
-
+         // intialize variable to hold the content type to be used in callback
+        var contentType = "";
+        
         if (err) { // If there is an error, set the status code
             response.writeHead( 404,
                                {'Content-Type': 'text/plain; charset = UTF-8'});
             response.write( err.message); // Include the error message body
             response.end(); // Done
-        } else { // Otherwise, the file was read successfully.
-             
-             // intialize variable to hold the content type to be used in callback
-            var contentType = "";
+        
+        } else { // Otherwise, the file was read successfully. 
              // determine which content type to use
             if (extension === ".html"){
                 contentType = 'text/html; charset = UTF-8';
@@ -47,17 +64,8 @@ function servePage(request, response) {
         }
     });   
 }
-// Load the file system module
-var fs = require("fs");
-// load the http module
-var http = require("http");
-// load the url module
-var url = require("url");
-// load the path module
-var path = require("path");
- 
 
 // create a server object
-var server = http.createServer(servePage);
+server = http.createServer(servePage);
 server.listen(8080);
 console.log('Server running at http://localhost:8080');

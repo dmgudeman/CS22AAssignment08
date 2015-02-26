@@ -1,0 +1,203 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1343\cocoasubrtf140
+{\fonttbl\f0\fnil\fcharset0 LucidaGrande;\f1\fnil\fcharset0 Verdana;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sa256
+
+\f0\fs26 \cf2 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Your task is to write a new web server that will serve files from the file system. \'a0You'll call it bestwebserver.js.
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 It will be similar to the second server we created in section 16.4: webserver.js. \'a0However instead of the fixed HTML source document './html/nodedemo.html', your server will serve the resource requested by the user on the address bar as well as associated resources requested by the browser (such as JavaScript or CSS files and images).
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 For example when the user types: http://localhost:8080
+\b \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 /html/calculator.html
+\f1\b0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 Your server will serve the page from the source document .
+\b \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 /html/calculator.htm
+\b0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 l.
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 Your server will be stored in a folder such as NodeServer. \'a0That folder includes two subfolders: \'a0html and scripts. \'a0Html documents such as\'a0calculator.html will be stored in the html subfolder. \'a0Associated client-side JavaScript files such as add.js will be stored in the separate scripts subfolder. \'a0
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \pard\pardeftab720\sa256
+
+\f1 \cf2 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+\pard\pardeftab720\sa256
+
+\f0 \cf2 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 You can access the full url entered by the user (or requested by the browser) \'a0through the request object as request.url.
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 To parse it, you can\'a0
+\b \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 use the url module available in Node
+\b0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 . \'a0Make sure you require it first (just like we required the http module in the webserver.js).
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 To get the resource name specified in request.url, you can then use:
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 var resource = url.parse(request.url).pathname;
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 The pathname is the portion of the url that comes after the hostname and port number and includes the initial forward slash /.
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 For the example above the pathname will be: \'a0/html/calculator.html
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 Your server should serve the content of that file with the appropriate error handling in case that file does not exist.
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 Your server should serve HTML documents, JavaScript files, CSS files and gif images. \'a0It has to specify the correct Content-Type for each in the header. \'a0The Content-Type header for each of the resources above is as follows:
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 html files: \'a0\{'Content-Type': 'text/html; charset = UTF-8'\}
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 JavaScript files (js):\'a0\{'Content-Type': 'application/javascript; charset = UTF-8'\}
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 css files:\'a0\{'Content-Type': 'text/css; charset = UTF-8'\}
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 gif images:\'a0\{'Content-Type': 'image/gif'\})
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 For any other resource type, you may use\'a0\{'Content-Type': 'text/plain; charset = UTF-8'\}
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 You will\'a0
+\b \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 use the extension of the resource requested to determine its content type
+\b0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 . \'a0You'll\'a0
+\b \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 use the path\'a0module
+\b0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \'a0available in Node to get the extension of the resource specified. \'a0Make sure you require it first \'a0(just like we required the http module in the webserver.js)
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 To get the extension name for a given resource, you can then use path.extname(resource).
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 Note that the dot separator is included in the extension name so path.extname('./html/calculator.html') will return '.html'.\'a0
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 If no resource is requested (the user enters\'a0http://localhost:8080), the program should serve a default web page ./html/home.html.
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 If the requested resource does not exist, the program should issue an appropriate error message.
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 Start with the file webserver.js.
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 Modify it and upload your solution as bestwebserver.js.
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 Make sure you test it with valid and invalid file names before you submit it.
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 The screencast below demonstrates how you would test your new web server. \'a0Note that all the resources are served through localhost NOT through the file scheme.\
+\pard\pardeftab720\sa256
+
+\b \cf2 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 Grading Rubric:
+\f1\b0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+\pard\pardeftab720\sa256
+
+\f0 \cf2 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 The program uses the url module correctly to parse the requested url - 15 point
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 The program uses the path module correctly to get the corresponding extension - 15 points
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 The program serves
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \'a0
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 HTML documents, JavaScript files, CSS files and gif images correctly - 20 points
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 The program serves a default web page when no specific resource is requested - 10 points
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+
+\f0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 The program includes appropriate error handling when the resource requested does not exist - 10 points\'a0
+\f1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+\
+\'a0\
+}
